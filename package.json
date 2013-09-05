@@ -1,0 +1,24 @@
+{
+  "name": "binary-split-stream",
+  "version": "0.0.1",
+  "description": "split streams of binary data. a binary optimized version of the 'split' module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxogden/binary-split-stream.git"
+  },
+  "author": "max ogden",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/maxogden/binary-split-stream/issues"
+  },
+  "dependencies": {
+    "through": "~2.3.4"
+  },
+  "devDependencies": {
+    "tape": "~1.1.0"
+  }
+}
