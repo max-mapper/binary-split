@@ -1,13 +1,13 @@
-# binary-split-stream
+# binary-split
 
 Split streams of binary data. Similar to [split](http://npmjs.org/split) but for [bops](http://npmjs.org/bops), e.g. Buffers in node or Uint8Arrays in the browser. Whereas split is String specific, this library never converts binary data into non-binary data.
 
-[![NPM](https://nodei.co/npm/binary-split-stream.png)](https://nodei.co/npm/binary-split-stream/)
+[![NPM](https://nodei.co/npm/binary-split.png)](https://nodei.co/npm/binary-split/)
 
 ## usage
 
 ```
-var split = require('binary-split-stream')
+var split = require('binary-split')
 ```
 
 #### split(splitOn)
