@@ -4,6 +4,10 @@ Split streams of binary data. Similar to [split](http://npmjs.org/split) but for
 
 [![NPM](https://nodei.co/npm/binary-split.png)](https://nodei.co/npm/binary-split/)
 
+## how fast is it?
+
+on a SSD w/ a Haswell i5 1.3ghz CPU and 4GB RAM reading a 2.6GB, 5.2 million entry line delimited JSON file takes 15 seconds. using `split` for the same benchmark takes 1m23s.
+
 ## usage
 
 ```
