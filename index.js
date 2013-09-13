@@ -1,3 +1,4 @@
+var bops = require('bops')
 var os = require('os')
 var through = require('through')
 
@@ -5,56 +6,69 @@ module.exports = BinarySplit
 
 function BinarySplit(matcher) {
   if (!(this instanceof BinarySplit)) return new BinarySplit(matcher)
-  var matcher = new Buffer(matcher || os.EOL)
+  var matcher = bops.from(matcher || os.EOL)
   var buffered
+  var bufcount = 0
   return through(write, end)
   
-  function write(buf) {
+  function write(buf) { 
+    bufcount++
+    var offset = 0
+        
     if (buffered) {
-      buf = Buffer.concat(buffered, buf)
+      buf = bops.join([buffered, buf])
       buffered = undefined
     }
-    var split = splitFirstNewline(buf)
-    if (!split) {
-      buffered = buf
-      return
+    
+    while (buf) {
+      var idx = firstMatch(buf, offset)
+      if (idx) {
+        var line = buf.slice(offset, idx)
+        if (idx === buf.length) {
+          buffered = line
+          buf = undefined
+          offset = idx
+        } else {
+          this.queue(line)
+          offset = idx + matcher.length
+        }
+      } else {
+        if (offset >= buf.length) {
+          buffered = undefined
+        } else {
+          buffered = buf
+        }
+        buf = undefined
+      }
     }
-    this.queue(split[0])
-    buffered = split[1]
   }
   
   function end() {
-    var self = this
-    while (buffered) {
-      var split = splitFirstNewline(buffered)
-      if (!split) {
-        self.queue(buffered)
-        buffered = undefined
-      } else {
-        self.queue(split[0])
-        buffered = split[1]
-      }
-    }
+    if (buffered) this.queue(buffered)
     this.queue(null)
   }
   
-  function splitFirstNewline(buf) {
-    var newlineIdx = false
-    var i = 0
-    while (!newlineIdx) {
+  function firstMatch(buf, offset) {
+    var i = offset
+    if (offset >= buf.length) return false
+    for (var i = offset; i < buf.length; i++) {
       if (buf[i] === matcher[0]) {
-        var match = true
-        // make sure multibyte matches fully match
-        for (var j = i; j < matcher.length; j++)
-          if (buf[j] !== matcher[j]) match = false
-        if (match) newlineIdx = i
+        if (matcher.length > 1) {
+          var fullMatch = true
+          for (var j = i, k = 0; j < i + matcher.length; j++, k++) {
+            if (buf[j] !== matcher[k]) {
+              fullMatch = false
+              break
+            }
+          }
+          if (fullMatch) return j - matcher.length
+        } else {
+          break
+        }
       }
-      i++
-      if (i === buf.length + 1) return false
     }
-    var split = [buf.slice(0, newlineIdx)]
-    var idx = newlineIdx + matcher.length
-    if (buf.length > idx) split.push(buf.slice(idx, buf.length))
-    return split
+
+    var idx = i + matcher.length - 1
+    return idx
   }
 }

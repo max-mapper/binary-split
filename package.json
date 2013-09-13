@@ -1,6 +1,6 @@
 {
   "name": "binary-split",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "split streams of binary data. a version of the 'split' module meant for binary data.",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "url": "https://github.com/maxogden/binary-split/issues"
   },
   "dependencies": {
-    "through": "~2.3.4"
+    "through": "~2.3.4",
+    "bops": "0.0.6"
   },
   "devDependencies": {
     "tape": "~1.1.0"

@@ -33,7 +33,7 @@ test('custom matcher', function(t) {
   var splitStream = splitTest(' ', function(err, items) {
     if (err) throw err
     t.equals(items.length, 5)
-    t.equals(items[0].toString(), 'hello')
+    t.equals(items.join(' '), 'hello yes this is dog')
     t.end()
   })
   splitStream.write(new Buffer('hello yes this is dog'))
@@ -45,6 +45,7 @@ test('long matcher', function(t) {
     if (err) throw err
     t.equals(items.length, 2)
     t.equals(items[0].toString(), 'hello yes ')
+    t.equals(items[1].toString(), ' is dog')
     t.end()
   })
   splitStream.write(new Buffer('hello yes this is dog'))
