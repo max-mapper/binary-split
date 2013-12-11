@@ -1,7 +1,7 @@
 {
   "name": "binary-split",
-  "version": "0.1.0",
-  "description": "split streams of binary data. a version of the 'split' module meant for binary data.",
+  "version": "0.1.1",
+  "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
