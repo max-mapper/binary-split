@@ -1,6 +1,6 @@
 var bops = require('bops')
-var os = require('os')
 var through = require('through')
+var os = require('os')
 
 module.exports = BinarySplit
 
@@ -23,7 +23,7 @@ function BinarySplit(matcher) {
     while (buf) {
       var idx = firstMatch(buf, offset)
       if (idx) {
-        var line = buf.slice(offset, idx)
+        var line = bops.subarray(buf, offset, idx)
         if (idx === buf.length) {
           buffered = line
           buf = undefined
