@@ -32,6 +32,8 @@ function BinarySplit(matcher) {
           this.queue(line)
           offset = idx + matcher.length
         }
+      } else if (idx === 0) {
+        buf = bops.subarray(buf, offset + matcher.length)
       } else {
         if (offset >= buf.length) {
           buffered = undefined
