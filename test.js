@@ -51,3 +51,17 @@ test('long matcher', function(t) {
   splitStream.write(new Buffer('hello yes this is dog'))
   splitStream.end()
 })
+
+test('matcher at index 0 check', function(t) {
+  var splitStream = splitTest(function(err, items) {
+    if (err) throw err
+
+    t.equals(items.length, 2)
+    t.equals(items[0].toString(), 'hello')
+    t.equals(items[1].toString(), 'max')
+    t.end()
+  })
+
+  splitStream.write(new Buffer('\nhello\nmax'))
+  splitStream.end()
+})
