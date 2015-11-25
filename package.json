@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "through": "~2.3.4",
-    "bops": "0.0.6"
+    "bops": "0.1.1"
   },
   "devDependencies": {
-    "tape": "~1.1.0"
+    "tape": "~4.2.2"
   }
 }
