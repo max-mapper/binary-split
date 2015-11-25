@@ -4,14 +4,14 @@ var os = require('os')
 
 module.exports = BinarySplit
 
-function BinarySplit(matcher) {
+function BinarySplit (matcher) {
   if (!(this instanceof BinarySplit)) return new BinarySplit(matcher)
-  var matcher = bops.from(matcher || os.EOL)
+  matcher = bops.from(matcher || os.EOL)
   var buffered
   var bufcount = 0
   return through(write, end)
 
-  function write(buf, enc, done) {
+  function write (buf, enc, done) {
     bufcount++
     var offset = 0
 
@@ -47,14 +47,13 @@ function BinarySplit(matcher) {
     done()
   }
 
-  function end(done) {
+  function end (done) {
     if (buffered) this.push(buffered)
     this.push(null)
     done()
   }
 
-  function firstMatch(buf, offset) {
-    var i = offset
+  function firstMatch (buf, offset) {
     if (offset >= buf.length) return false
     for (var i = offset; i < buf.length; i++) {
       if (buf[i] === matcher[0]) {

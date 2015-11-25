@@ -2,35 +2,35 @@ var test = require('tape')
 var fs = require('fs')
 var split = require('./')
 
-function splitTest(matcher, cb) {
+function splitTest (matcher, cb) {
   if (!cb) {
     cb = matcher
     matcher = undefined
   }
   var splitter = split(matcher)
   var items = []
-  splitter.on('data', function(item) {
+  splitter.on('data', function (item) {
     items.push(item)
   })
-  splitter.on('error', function(e) {
+  splitter.on('error', function (e) {
     cb(e)
   })
-  splitter.on('end', function() {
+  splitter.on('end', function () {
     cb(false, items)
   })
   return splitter
 }
 
-test('ldjson file', function(t) {
-  fs.createReadStream('test.json').pipe(splitTest(function(err, items) {
+test('ldjson file', function (t) {
+  fs.createReadStream('test.json').pipe(splitTest(function (err, items) {
     if (err) throw err
     t.equals(items.length, 3)
     t.end()
   }))
 })
 
-test('custom matcher', function(t) {
-  var splitStream = splitTest(' ', function(err, items) {
+test('custom matcher', function (t) {
+  var splitStream = splitTest(' ', function (err, items) {
     if (err) throw err
     t.equals(items.length, 5)
     t.equals(items.join(' '), 'hello yes this is dog')
@@ -40,8 +40,8 @@ test('custom matcher', function(t) {
   splitStream.end()
 })
 
-test('long matcher', function(t) {
-  var splitStream = splitTest('this', function(err, items) {
+test('long matcher', function (t) {
+  var splitStream = splitTest('this', function (err, items) {
     if (err) throw err
     t.equals(items.length, 2)
     t.equals(items[0].toString(), 'hello yes ')
@@ -52,8 +52,8 @@ test('long matcher', function(t) {
   splitStream.end()
 })
 
-test('matcher at index 0 check', function(t) {
-  var splitStream = splitTest(function(err, items) {
+test('matcher at index 0 check', function (t) {
+  var splitStream = splitTest(function (err, items) {
     if (err) throw err
 
     t.equals(items.length, 2)

@@ -4,7 +4,7 @@
   "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "standard && node test.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,10 @@
   },
   "dependencies": {
     "bops": "0.1.1",
-    "through": "~2.3.4",
     "through2": "^2.0.0"
   },
   "devDependencies": {
+    "standard": "^5.4.1",
     "tape": "~4.2.2"
   }
 }
