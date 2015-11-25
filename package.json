@@ -16,8 +16,9 @@
     "url": "https://github.com/maxogden/binary-split/issues"
   },
   "dependencies": {
+    "bops": "0.1.1",
     "through": "~2.3.4",
-    "bops": "0.1.1"
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "tape": "~4.2.2"
