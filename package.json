@@ -4,7 +4,7 @@
   "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "standard && node test.js"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,11 @@
     "url": "https://github.com/maxogden/binary-split/issues"
   },
   "dependencies": {
-    "through": "~2.3.4",
-    "bops": "0.0.6"
+    "bops": "0.1.1",
+    "through2": "^2.0.0"
   },
   "devDependencies": {
-    "tape": "~1.1.0"
+    "standard": "^5.4.1",
+    "tape": "~4.2.2"
   }
 }
