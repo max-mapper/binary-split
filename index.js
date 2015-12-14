@@ -1,4 +1,3 @@
-var bops = require('bops')
 var through = require('through2')
 var os = require('os')
 
@@ -6,7 +5,7 @@ module.exports = BinarySplit
 
 function BinarySplit (matcher) {
   if (!(this instanceof BinarySplit)) return new BinarySplit(matcher)
-  matcher = bops.from(matcher || os.EOL)
+  matcher = Buffer(matcher || os.EOL)
   var buffered
   var bufcount = 0
   return through(write, end)
@@ -16,14 +15,14 @@ function BinarySplit (matcher) {
     var offset = 0
 
     if (buffered) {
-      buf = bops.join([buffered, buf])
+      buf = Buffer.concat([buffered, buf])
       buffered = undefined
     }
 
     while (buf) {
       var idx = firstMatch(buf, offset)
       if (idx) {
-        var line = bops.subarray(buf, offset, idx)
+        var line = buf.slice(offset, idx)
         if (idx === buf.length) {
           buffered = line
           buf = undefined
@@ -33,7 +32,7 @@ function BinarySplit (matcher) {
           offset = idx + matcher.length
         }
       } else if (idx === 0) {
-        buf = bops.subarray(buf, offset + matcher.length)
+        buf = buf.slice(offset + matcher.length)
       } else {
         if (offset >= buf.length) {
           buffered = undefined
