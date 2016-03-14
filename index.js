@@ -22,25 +22,13 @@ function BinarySplit (matcher) {
 
     while (buf) {
       var idx = firstMatch(buf, offset)
-      if (idx) {
-        if (idx === buf.length) {
-          buffered = buf
-          buf = undefined
-          offset = idx
-        } else {
-          this.push(bops.subarray(buf, 0, idx))
-          buf = bops.subarray(buf, idx)
-          offset = 0
-        }
-      } else if (idx === 0) {
-        buf = bops.subarray(buf, offset + matcher.length)
+      if (idx !== -1 && idx < buf.length) {
+        this.push(bops.subarray(buf, 0, idx))
+        buf = bops.subarray(buf, idx + matcher.length)
+        offset = 0
       } else {
-        if (offset >= buf.length) {
-          buffered = undefined
-          offset = 0
-        } else {
-          buffered = buf
-        }
+        buffered = buf
+        offset = buf.length
         buf = undefined
       }
     }
@@ -55,7 +43,7 @@ function BinarySplit (matcher) {
   }
 
   function firstMatch (buf, offset) {
-    if (offset >= buf.length) return false
+    if (offset >= buf.length) return -1
     for (var i = offset; i < buf.length; i++) {
       if (buf[i] === matcher[0]) {
         if (matcher.length > 1) {
