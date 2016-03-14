@@ -23,14 +23,14 @@ function BinarySplit (matcher) {
     while (buf) {
       var idx = firstMatch(buf, offset)
       if (idx) {
-        var line = bops.subarray(buf, offset, idx)
         if (idx === buf.length) {
-          buffered = line
+          buffered = buf
           buf = undefined
           offset = idx
         } else {
-          this.push(line)
-          offset = idx + matcher.length
+          this.push(bops.subarray(buf, 0, idx))
+          buf = bops.subarray(buf, idx)
+          offset = 0
         }
       } else if (idx === 0) {
         buf = bops.subarray(buf, offset + matcher.length)
