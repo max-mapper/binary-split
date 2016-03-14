@@ -76,3 +76,14 @@ test('chunked input', function (t) {
     t.end()
   }))
 })
+
+test('chunked input with long matcher', function (t) {
+  fs.createReadStream('test.json')
+  .pipe(split('\n'))
+  .pipe(splitTest('hello', function (err, items) {
+    if (err) throw err
+    t.equals(items.length, 2)
+    t.equals(items[0].toString(), '{"')
+    t.end()
+  }))
+})
