@@ -9,11 +9,11 @@ function BinarySplit (matcher) {
   matcher = bops.from(matcher || os.EOL)
   var buffered
   var bufcount = 0
+  var offset = 0
   return through(write, end)
 
   function write (buf, enc, done) {
     bufcount++
-    var offset = 0
 
     if (buffered) {
       buf = bops.join([buffered, buf])
@@ -37,6 +37,7 @@ function BinarySplit (matcher) {
       } else {
         if (offset >= buf.length) {
           buffered = undefined
+          offset = 0
         } else {
           buffered = buf
         }
