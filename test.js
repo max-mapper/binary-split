@@ -65,3 +65,25 @@ test('matcher at index 0 check', function (t) {
   splitStream.write(new Buffer('\nhello\nmax'))
   splitStream.end()
 })
+
+test('chunked input', function (t) {
+  fs.createReadStream('test.json')
+  .pipe(split('\n'))
+  .pipe(split('i'))
+  .pipe(splitTest(':', function (err, items) {
+    if (err) throw err
+    t.equals(items.length, 4)
+    t.end()
+  }))
+})
+
+test('chunked input with long matcher', function (t) {
+  fs.createReadStream('test.json')
+  .pipe(split('\n'))
+  .pipe(splitTest('hello', function (err, items) {
+    if (err) throw err
+    t.equals(items.length, 2)
+    t.equals(items[0].toString(), '{"')
+    t.end()
+  }))
+})
