@@ -19,7 +19,7 @@
     "through2": "^2.0.0"
   },
   "devDependencies": {
-    "standard": "^5.4.1",
-    "tape": "~4.2.2"
+    "standard": "^6.0.8",
+    "tape": "~4.5.1"
   }
 }
