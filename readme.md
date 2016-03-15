@@ -1,31 +1,43 @@
 # binary-split
 
-Split streams of binary data. Similar to [split](http://npmjs.org/split) but for Buffers. Whereas split is String specific, this library never converts binary data into non-binary data.
+Split streams of binary data. Similar to [split](http://npmjs.org/split) but for Buffers.
+Whereas split is String specific, this library never converts binary data into non-binary data.
 
 [![travis][travis-image]][travis-url]
 
 [travis-image]: https://img.shields.io/travis/maxogden/binary-split.svg?style=flat
 [travis-url]: https://travis-ci.org/maxogden/binary-split
 
-## how fast is it?
+## How fast is it?
 
-on a SSD w/ a Haswell i5 1.3ghz CPU and 4GB RAM reading a 2.6GB, 5.2 million entry line delimited JSON file takes 15 seconds. using `split` for the same benchmark takes 1m23s.
+On a SSD w/ a Haswell i5 1.3ghz CPU and 4GB RAM reading a 2.6GB, 5.2 million entry line delimited JSON file takes 15 seconds. Using `split` for the same benchmark takes 1m23s.
 
-## usage
+## Example usage
 
-```
+```js
 var split = require('binary-split')
+
+fs.createReadStream('log.txt')
+.pipe(split())
+.on('data', function (line) {
+  console.log(line);
+})
 ```
 
-#### split(splitOn)
+## API
 
-Returns a stream. You can `.pipe` other streams to it or `.write` them yourself (if you `.write` don't forget to `.end`)
+#### split([splitOn])
+
+Returns a stream.
+You can `.pipe` other streams to it or `.write` them yourself
+(if you `.write` don't forget to `.end`).
 
 The stream will emit a stream of binary objects representing the split data.
 
-Pass in the optional `splitOn` argument to specify where to split the data. The default is your current operating systems EOL sequence (via `require('os').EOL`).
+Pass in the optional `splitOn` argument to specify where to split the data.
+The default is your current operating systems EOL sequence (via `require('os').EOL`).
 
-For more examples of usage see `test.js`
+For more examples of usage see `test.js`.
 
 ## Collaborators
 
@@ -34,28 +46,4 @@ binary-split is only possible due to the excellent work of the following collabo
 - Max Ogden ([@maxogden](https://github.com/maxogden))
 - Vladimir Agafonkin ([@mourner](https://github.com/mourner))
 - Martin Raifer ([@tyrasd](https://github.com/tyrasd))
-
-### license
-
-BSD
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
