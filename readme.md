@@ -27,6 +27,14 @@ Pass in the optional `splitOn` argument to specify where to split the data. The 
 
 For more examples of usage see `test.js`
 
+## Collaborators
+
+binary-split is only possible due to the excellent work of the following collaborators:
+
+- Max Ogden ([@maxogden](https://github.com/maxogden))
+- Vladimir Agafonkin ([@mourner](https://github.com/mourner))
+- Martin Raifer ([@tyrasd](https://github.com/tyrasd))
+
 ### license
 
 BSD
