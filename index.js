@@ -9,27 +9,27 @@ function BinarySplit (matcher) {
   matcher = bops.from(matcher || os.EOL)
   var buffered
   var bufcount = 0
-  var offset = 0
   return through(write, end)
 
   function write (buf, enc, done) {
     bufcount++
-
+    var offset = 0
+    var lastMatch = 0
     if (buffered) {
       buf = bops.join([buffered, buf])
+      offset = buffered.length
       buffered = undefined
     }
 
-    while (buf) {
+    while (true) {
       var idx = firstMatch(buf, offset)
       if (idx !== -1 && idx < buf.length) {
-        this.push(bops.subarray(buf, 0, idx))
-        buf = bops.subarray(buf, idx + matcher.length)
-        offset = 0
+        this.push(bops.subarray(buf, lastMatch, idx))
+        offset = idx + matcher.length
+        lastMatch = offset
       } else {
-        buffered = buf
-        offset = buf.length
-        buf = undefined
+        buffered = bops.subarray(buf, lastMatch)
+        break
       }
     }
 
