@@ -1,6 +1,6 @@
 {
   "name": "binary-split",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
   "main": "index.js",
   "scripts": {
