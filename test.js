@@ -36,7 +36,10 @@ test('custom matcher', function (t) {
     t.equals(items.join(' '), 'hello yes this is dog')
     t.end()
   })
-  splitStream.write(new Buffer('hello yes this is dog'))
+  splitStream.write(new Buffer('hello yes '))
+  splitStream.write(new Buffer('this'))
+  splitStream.write(new Buffer(' is d'))
+  splitStream.write(new Buffer('og'))
   splitStream.end()
 })
 
