@@ -21,7 +21,7 @@ function BinarySplit (matcher) {
     }
 
     while (true) {
-      var idx = firstMatch(buf, offset)
+      var idx = firstMatch(buf, offset - matcher.length + 1)
       if (idx !== -1 && idx < buf.length) {
         this.push(buf.slice(lastMatch, idx))
         offset = idx + matcher.length
