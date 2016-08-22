@@ -7,11 +7,9 @@ function BinarySplit (matcher) {
   if (!(this instanceof BinarySplit)) return new BinarySplit(matcher)
   matcher = Buffer(matcher || os.EOL)
   var buffered
-  var bufcount = 0
   return through(write, end)
 
   function write (buf, enc, done) {
-    bufcount++
     var offset = 0
     var lastMatch = 0
     if (buffered) {
