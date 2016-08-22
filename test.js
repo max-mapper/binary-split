@@ -90,3 +90,18 @@ test('chunked input with long matcher', function (t) {
     t.end()
   }))
 })
+
+test('lookbehind in multi character matcher', function (t) {
+  var splitStream = splitTest('\r\n\r', function (err, items) {
+    if (err) throw err
+    t.equals(items.length, 2)
+    t.equals(items[0].toString(), 'a')
+    t.equals(items[1].toString(), 'b')
+    t.end()
+  })
+
+  splitStream.write('a\r')
+  splitStream.write('\n')
+  splitStream.write('\rb')
+  splitStream.end()
+})
