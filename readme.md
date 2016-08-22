@@ -46,4 +46,5 @@ binary-split is only possible due to the excellent work of the following collabo
 - Max Ogden ([@maxogden](https://github.com/maxogden))
 - Vladimir Agafonkin ([@mourner](https://github.com/mourner))
 - Martin Raifer ([@tyrasd](https://github.com/tyrasd))
+- Julian Gruber ([@juliangruber](https://github.com/juliangruber))
 
