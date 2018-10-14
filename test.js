@@ -2,6 +2,8 @@ var test = require('tape')
 var fs = require('fs')
 var split = require('./')
 
+var bufferFrom = Buffer.from && Buffer.from !== Uint8Array.from
+
 function splitTest (matcher, cb) {
   if (!cb) {
     cb = matcher
@@ -35,15 +37,18 @@ test('custom matcher', function (t) {
     t.equals(items.length, 5)
     t.equals(items.join(' '), 'hello yes this is dog')
     t.end()
+  });
+
+  ['hello yes ', 'this', ' is d', 'og'].map(function (chunk) {
+    return bufferFrom ? Buffer.from(chunk) : new Buffer(chunk)
+  }).forEach(function (chunk) {
+    splitStream.write(chunk)
   })
-  splitStream.write(new Buffer('hello yes '))
-  splitStream.write(new Buffer('this'))
-  splitStream.write(new Buffer(' is d'))
-  splitStream.write(new Buffer('og'))
   splitStream.end()
 })
 
 test('long matcher', function (t) {
+  var data = 'hello yes this is dog'
   var splitStream = splitTest('this', function (err, items) {
     if (err) throw err
     t.equals(items.length, 2)
@@ -51,11 +56,12 @@ test('long matcher', function (t) {
     t.equals(items[1].toString(), ' is dog')
     t.end()
   })
-  splitStream.write(new Buffer('hello yes this is dog'))
+  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data))
   splitStream.end()
 })
 
 test('matcher at index 0 check', function (t) {
+  var data = '\nhello\nmax'
   var splitStream = splitTest(function (err, items) {
     if (err) throw err
 
@@ -65,7 +71,7 @@ test('matcher at index 0 check', function (t) {
     t.end()
   })
 
-  splitStream.write(new Buffer('\nhello\nmax'))
+  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data))
   splitStream.end()
 })
 
