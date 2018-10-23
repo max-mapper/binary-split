@@ -3,9 +3,12 @@ var os = require('os')
 
 module.exports = BinarySplit
 
-function BinarySplit (matcher) {
-  if (!(this instanceof BinarySplit)) return new BinarySplit(matcher)
-  matcher = Buffer(matcher || os.EOL)
+function BinarySplit (splitOn) {
+  if (!(this instanceof BinarySplit)) return new BinarySplit(splitOn)
+  splitOn = splitOn || os.EOL
+  var matcher = Buffer.from && Buffer.from !== Uint8Array.from
+    ? Buffer.from(splitOn)
+    : new Buffer(splitOn)
   var buffered
   return through(write, end)
 
