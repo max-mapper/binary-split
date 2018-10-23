@@ -18,7 +18,7 @@ function splitTest (matcher, cb) {
     cb(e)
   })
   splitter.on('end', function () {
-    cb(false, items)
+    cb(null, items)
   })
   return splitter
 }
@@ -40,7 +40,7 @@ test('custom matcher', function (t) {
   });
 
   ['hello yes ', 'this', ' is d', 'og'].map(function (chunk) {
-    return bufferFrom ? Buffer.from(chunk) : new Buffer(chunk)
+    return bufferFrom ? Buffer.from(chunk) : new Buffer(chunk) // eslint-disable-line
   }).forEach(function (chunk) {
     splitStream.write(chunk)
   })
@@ -56,7 +56,7 @@ test('long matcher', function (t) {
     t.equals(items[1].toString(), ' is dog')
     t.end()
   })
-  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data))
+  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data)) // eslint-disable-line
   splitStream.end()
 })
 
@@ -71,30 +71,30 @@ test('matcher at index 0 check', function (t) {
     t.end()
   })
 
-  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data))
+  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data)) // eslint-disable-line
   splitStream.end()
 })
 
 test('chunked input', function (t) {
   fs.createReadStream('test.json')
-  .pipe(split('\n'))
-  .pipe(split('i'))
-  .pipe(splitTest(':', function (err, items) {
-    if (err) throw err
-    t.equals(items.length, 4)
-    t.end()
-  }))
+    .pipe(split('\n'))
+    .pipe(split('i'))
+    .pipe(splitTest(':', function (err, items) {
+      if (err) throw err
+      t.equals(items.length, 4)
+      t.end()
+    }))
 })
 
 test('chunked input with long matcher', function (t) {
   fs.createReadStream('test.json')
-  .pipe(split('\n'))
-  .pipe(splitTest('hello', function (err, items) {
-    if (err) throw err
-    t.equals(items.length, 2)
-    t.equals(items[0].toString(), '{"')
-    t.end()
-  }))
+    .pipe(split('\n'))
+    .pipe(splitTest('hello', function (err, items) {
+      if (err) throw err
+      t.equals(items.length, 2)
+      t.equals(items[0].toString(), '{"')
+      t.end()
+    }))
 })
 
 test('lookbehind in multi character matcher', function (t) {

@@ -8,7 +8,7 @@ function BinarySplit (splitOn) {
   splitOn = splitOn || os.EOL
   var matcher = Buffer.from && Buffer.from !== Uint8Array.from
     ? Buffer.from(splitOn)
-    : new Buffer(splitOn)
+    : new Buffer(splitOn) // eslint-disable-line
   var buffered
   return through(write, end)
 

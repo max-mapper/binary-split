@@ -15,13 +15,11 @@ On a SSD w/ a Haswell i5 1.3ghz CPU and 4GB RAM reading a 2.6GB, 5.2 million ent
 ## Example usage
 
 ```js
-var split = require('binary-split')
+const split = require('binary-split')
 
 fs.createReadStream('log.txt')
-.pipe(split())
-.on('data', function (line) {
-  console.log(line);
-})
+  .pipe(split())
+  .on('data', line => console.log(line))
 ```
 
 ## API
