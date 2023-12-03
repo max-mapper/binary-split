@@ -1,6 +1,6 @@
 'use strict'
 
-const through = require('through2')
+const { Transform } = require('stream')
 const split = require('./')
 
 let str = ''
@@ -8,7 +8,7 @@ for (let i = 0; i < 1000000; i++) {
   str += 'Hello beautiful world\n'
 }
 
-const stream = through()
+const stream = new Transform()
   .pipe(split())
   .on('data', function () {})
   .on('end', function () {
