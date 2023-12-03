@@ -1,5 +1,6 @@
 const test = require('tape')
 const fs = require('fs')
+const PassThrough = require('stream').PassThrough
 const split = require('./')
 
 function splitTest (matcher, cb) {
@@ -108,4 +109,17 @@ test('lookbehind in multi character matcher', function (t) {
   splitStream.write('\n')
   splitStream.write('\rb')
   splitStream.end()
+})
+
+test('should not combine outputs', function (t) {
+  const pt = new PassThrough()
+  const stream = pt.pipe(split('.'))
+  pt.write('a.b')
+  pt.end('c.d')
+  setImmediate(function () {
+    t.equal(stream.read().toString(), 'a')
+    t.equal(stream.read().toString(), 'bc')
+    t.equal(stream.read().toString(), 'd')
+    t.end()
+  })
 })
