@@ -1,14 +1,14 @@
 'use strict'
 
-var through = require('through2')
-var split = require('./')
+const through = require('through2')
+const split = require('./')
 
-var str = ''
-for (var i = 0; i < 1000000; i++) {
+let str = ''
+for (let i = 0; i < 1000000; i++) {
   str += 'Hello beautiful world\n'
 }
 
-var stream = through()
+const stream = through()
   .pipe(split())
   .on('data', function () {})
   .on('end', function () {

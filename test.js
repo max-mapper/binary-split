@@ -1,16 +1,14 @@
-var test = require('tape')
-var fs = require('fs')
-var split = require('./')
-
-var bufferFrom = Buffer.from && Buffer.from !== Uint8Array.from
+const test = require('tape')
+const fs = require('fs')
+const split = require('./')
 
 function splitTest (matcher, cb) {
   if (!cb) {
     cb = matcher
     matcher = undefined
   }
-  var splitter = split(matcher)
-  var items = []
+  const splitter = split(matcher)
+  const items = []
   splitter.on('data', function (item) {
     items.push(item)
   })
@@ -32,7 +30,7 @@ test('ldjson file', function (t) {
 })
 
 test('custom matcher', function (t) {
-  var splitStream = splitTest(' ', function (err, items) {
+  const splitStream = splitTest(' ', function (err, items) {
     if (err) throw err
     t.equals(items.length, 5)
     t.equals(items.join(' '), 'hello yes this is dog')
@@ -40,7 +38,7 @@ test('custom matcher', function (t) {
   });
 
   ['hello yes ', 'this', ' is d', 'og'].map(function (chunk) {
-    return bufferFrom ? Buffer.from(chunk) : new Buffer(chunk) // eslint-disable-line
+    return Buffer.from(chunk)
   }).forEach(function (chunk) {
     splitStream.write(chunk)
   })
@@ -48,21 +46,21 @@ test('custom matcher', function (t) {
 })
 
 test('long matcher', function (t) {
-  var data = 'hello yes this is dog'
-  var splitStream = splitTest('this', function (err, items) {
+  const data = 'hello yes this is dog'
+  const splitStream = splitTest('this', function (err, items) {
     if (err) throw err
     t.equals(items.length, 2)
     t.equals(items[0].toString(), 'hello yes ')
     t.equals(items[1].toString(), ' is dog')
     t.end()
   })
-  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data)) // eslint-disable-line
+  splitStream.write(Buffer.from(data))
   splitStream.end()
 })
 
 test('matcher at index 0 check', function (t) {
-  var data = '\nhello\nmax'
-  var splitStream = splitTest(function (err, items) {
+  const data = '\nhello\nmax'
+  const splitStream = splitTest(function (err, items) {
     if (err) throw err
 
     t.equals(items.length, 2)
@@ -71,7 +69,7 @@ test('matcher at index 0 check', function (t) {
     t.end()
   })
 
-  splitStream.write(bufferFrom ? Buffer.from(data) : new Buffer(data)) // eslint-disable-line
+  splitStream.write(Buffer.from(data))
   splitStream.end()
 })
 
@@ -98,7 +96,7 @@ test('chunked input with long matcher', function (t) {
 })
 
 test('lookbehind in multi character matcher', function (t) {
-  var splitStream = splitTest('\r\n\r', function (err, items) {
+  const splitStream = splitTest('\r\n\r', function (err, items) {
     if (err) throw err
     t.equals(items.length, 2)
     t.equals(items[0].toString(), 'a')
