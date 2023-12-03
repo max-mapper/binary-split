@@ -15,9 +15,6 @@
   "bugs": {
     "url": "https://github.com/maxogden/binary-split/issues"
   },
-  "dependencies": {
-    "through2": "^4.0.2"
-  },
   "devDependencies": {
     "standard": "^17.1.0",
     "tape": "~5.7.2"
