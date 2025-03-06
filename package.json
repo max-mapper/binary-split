@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/maxogden/binary-split.git"
+    "url": "git://github.com/max-mapper/binary-split.git"
   },
   "author": "max ogden",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/maxogden/binary-split/issues"
+    "url": "https://github.com/max-mapper/binary-split/issues"
   },
   "devDependencies": {
     "standard": "^17.1.0",
