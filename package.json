@@ -1,6 +1,6 @@
 {
   "name": "binary-split",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "Fast stream splitter for binary data by newline or any delimiter, with zero-copy Buffer output",
   "type": "module",
   "exports": "./index.js",
