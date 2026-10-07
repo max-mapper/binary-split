@@ -1,11 +1,11 @@
 {
   "name": "binary-split",
   "version": "1.0.5",
-  "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
+  "description": "Fast stream splitter for binary data by newline or any delimiter, with zero-copy Buffer output",
   "type": "module",
   "exports": "./index.js",
   "engines": {
-    "node": ">=20.19"
+    "node": "^20.19 || >=22.12"
   },
   "scripts": {
     "test": "eslint && node --test test.js"
@@ -20,11 +20,20 @@
     "url": "https://github.com/max-mapper/binary-split/issues"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.12.0",
     "globals": "^17.13.0"
-  }
+  },
+  "keywords": [
+    "split",
+    "stream",
+    "newline",
+    "buffer",
+    "binary",
+    "ndjson"
+  ]
 }

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { PassThrough } from 'node:stream'
 import { setImmediate } from 'node:timers/promises'
+import { createRequire } from 'node:module'
 import split from './index.js'
 
 async function splitChunks (chunks, matcher) {
@@ -74,4 +75,23 @@ test('async iteration yields separate lines', async () => {
   const items = []
   for await (const item of stream) items.push(item.toString())
   assert.deepEqual(items, ['a', 'bc', 'd'])
+})
+
+test('long line spanning many chunks', async () => {
+  const chunks = ['a\nb', ...Array(100).fill('x'), 'y\r', '\nz']
+  assert.deepEqual(await splitChunks(chunks), ['a', 'b' + 'x'.repeat(100) + 'y\r', 'z'])
+  assert.deepEqual(await splitChunks(chunks, '\r\n'), ['a\nb' + 'x'.repeat(100) + 'y', 'z'])
+})
+
+test('multi-byte matcher straddling deferred chunks', async () => {
+  assert.deepEqual(await splitChunks(['a', 'b', 'c', '<', '-', '>', 'd'], '<->'), ['abc', 'd'])
+  assert.deepEqual(await splitChunks(['ab<', '-', '>cd<-', '>e'], '<->'), ['ab', 'cd', 'e'])
+})
+
+test('empty matcher throws', () => {
+  assert.throws(() => split(''), /must not be empty/)
+})
+
+test('require() returns the function directly', () => {
+  assert.equal(createRequire(import.meta.url)('./index.js'), split)
 })
