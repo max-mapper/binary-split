@@ -1,15 +1,8 @@
-'use strict'
+import split from './index.js'
 
-const { Transform } = require('stream')
-const split = require('./')
+const str = 'Hello beautiful world\n'.repeat(1000000)
 
-let str = ''
-for (let i = 0; i < 1000000; i++) {
-  str += 'Hello beautiful world\n'
-}
-
-const stream = new Transform()
-  .pipe(split())
+const stream = split()
   .on('data', function () {})
   .on('end', function () {
     console.timeEnd('split')

@@ -3,23 +3,21 @@
 Split streams of binary data. Similar to [split](http://npmjs.org/split) but for Buffers.
 Whereas split is String specific, this library never converts binary data into non-binary data.
 
-[![travis][travis-image]][travis-url]
-
-[travis-image]: https://img.shields.io/travis/maxogden/binary-split.svg?style=flat
-[travis-url]: https://travis-ci.org/maxogden/binary-split
+[![Node](https://github.com/max-mapper/binary-split/actions/workflows/node.yml/badge.svg)](https://github.com/max-mapper/binary-split/actions/workflows/node.yml)
 
 ## How fast is it?
 
-On a SSD w/ a Haswell i5 1.3ghz CPU and 4GB RAM reading a 2.6GB, 5.2 million entry line delimited JSON file takes 15 seconds. Using `split` for the same benchmark takes 1m23s.
+It finds delimiters with native `Buffer#indexOf` and emits zero-copy slices of the input, so throughput
+is mostly bound by I/O and stream overhead — typically hundreds of MB/s to GB/s depending on line length.
 
 ## Example usage
 
 ```js
-const split = require('binary-split')
+import split from 'binary-split'
 
-fs.createReadStream('log.txt')
-  .pipe(split())
-  .on('data', line => console.log(line))
+for await (const line of fs.createReadStream('log.txt').pipe(split())) {
+  console.log(line.toString())
+}
 ```
 
 ## API
@@ -30,12 +28,12 @@ Returns a stream.
 You can `.pipe` other streams to it or `.write` them yourself
 (if you `.write` don't forget to `.end`).
 
-The stream will emit a stream of binary objects representing the split data.
+The readable side is in object mode: each line is emitted as a separate `Buffer` (a slice of the input,
+without the delimiter), whether you consume it with `'data'` events, `.read()` or `for await`. Empty lines
+are skipped.
 
-Pass in the optional `splitOn` argument to specify where to split the data.
-The default is your current operating systems EOL sequence (via `require('os').EOL`).
-
-For more examples of usage see `test.js`.
+Pass in the optional `splitOn` argument (a string or `Buffer`) to specify where to split the data.
+The default is `'\n'`.
 
 ## Collaborators
 

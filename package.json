@@ -2,24 +2,29 @@
   "name": "binary-split",
   "version": "1.0.5",
   "description": "a fast newline (or any delimiter) splitter stream - like require('split') but faster",
-  "main": "index.js",
+  "type": "module",
+  "exports": "./index.js",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
-    "test": "standard --verbose && node test.js"
+    "test": "eslint && node --test test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/maxogden/binary-split.git"
+    "url": "git+https://github.com/max-mapper/binary-split.git"
   },
   "author": "max ogden",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/maxogden/binary-split/issues"
-  },
-  "devDependencies": {
-    "standard": "^17.1.0",
-    "tape": "~5.7.2"
+    "url": "https://github.com/max-mapper/binary-split/issues"
   },
   "files": [
     "index.js"
-  ]
+  ],
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0"
+  }
 }
